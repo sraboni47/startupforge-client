@@ -19,15 +19,60 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleGoogleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    if (!email || !password) {
+      toast.error("Please fill all fields");
+      return;
+    }
+
     try {
-      await authClient.signIn.social({
-        provider: "google",
-        callbackURL: "https://startupforge-client-gamma.vercel.app",
+      setLoading(true);
+
+      const { error } = await authClient.signIn.email({
+        email,
+        password,
       });
-    } catch (error) {
-      console.error(error);
-      toast.error("Google Login Failed");
+
+      if (error) {
+        toast.error(error.message || "Invalid email or password");
+        return;
+      }
+
+      toast.success("Login Successful");
+
+      console.log("Before axios");
+
+      const { data: user } = await axios.get(
+        `https://startupforge-server-5pdk.vercel.app/users/${email}`,
+      );
+
+      console.log("User =", user);
+
+      router.refresh();
+
+      if (!user || Object.keys(user).length === 0) {
+        toast.error("User profile not found");
+        return;
+      }
+
+      if (user.role === "founder") {
+        router.push("/dashboard");
+      } else {
+        router.push("/dashboard/my-applications");
+      }
+    } catch (err) {
+      console.error("ERROR =", err);
+
+      if (err.response) {
+        console.log("Status:", err.response.status);
+        console.log("Data:", err.response.data);
+      }
+
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,6 +100,8 @@ const LoginForm = () => {
       toast.success("Login Successful");
       router.refresh();
 
+      console.log("Before axios");
+      console.log("User =", user);
       const { data: user } = await axios.get(
         `https://startupforge-server-5pdk.vercel.app/users/${email}`,
       );
@@ -65,7 +112,17 @@ const LoginForm = () => {
         router.push("/dashboard/my-applications");
       }
     } catch (err) {
-      console.error(err);
+      console.error("ERROR =", err);
+
+      if (err.response) {
+        console.log("Status:", err.response.status);
+        console.log("Data:", err.response.data);
+      }
+
+      if (err.request) {
+        console.log("Request:", err.request);
+      }
+
       toast.error("Something went wrong");
     } finally {
       setLoading(false);

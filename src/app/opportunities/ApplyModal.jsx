@@ -37,7 +37,7 @@ const ApplyModal = ({ open, onClose, opportunity }) => {
         appliedAt: new Date(),
       };
 
-      await axios.post("http://localhost:5000/applications", application);
+      await axios.post("https://startupforge-server-5pdk.vercel.app/applications", application);
 
       toast.success("Application submitted!");
 

@@ -27,9 +27,7 @@ export default function DashboardSidebar() {
       if (!session?.user?.email) return;
 
       try {
-        const { data } = await axios.get(
-          `http://localhost:5000/users/${session.user.email}`
-        );
+        const { data } = await axios.get(`https://startupforge-server-5pdk.vercel.app/users/${session.user.email}`);
 
         setRole(data.role);
       } catch (error) {

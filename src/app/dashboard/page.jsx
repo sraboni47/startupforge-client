@@ -18,7 +18,7 @@ export default function DashboardPage() {
   const checkRole = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:5000/users/${session.user.email}`,
+        `https://startupforge-server-5pdk.vercel.app/users/${session.user.email}`,
       );
 
       setRole(data.role);

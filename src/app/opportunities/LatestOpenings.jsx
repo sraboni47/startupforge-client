@@ -11,7 +11,7 @@ export default function LatestOpenings() {
   useEffect(() => {
     const fetchLatest = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/opportunities");
+        const res = await axios.get("https://startupforge-server-5pdk.vercel.app/opportunities");
         setLatest(res.data.slice(0, 6));
       } catch (error) {
         console.error(error);
