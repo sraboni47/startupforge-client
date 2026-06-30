@@ -18,7 +18,9 @@ export default function OpportunitiesPage() {
     try {
       setLoading(true);
 
-      const res = await axios.get("http://localhost:5000/opportunities");
+      const res = await axios.get(
+        "https://startupforge-server-5pdk.vercel.app/opportunities",
+      );
 
       console.log("API Response:", res.data);
 

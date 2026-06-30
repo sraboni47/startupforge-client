@@ -38,7 +38,7 @@ export default function MyStartupPage() {
   const fetchStartup = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:5000/startups/${session.user.email}`,
+        `https://startupforge-server-5pdk.vercel.app/startups/${session.user.email}`,
       );
 
       setStartupList(data);
@@ -82,7 +82,7 @@ export default function MyStartupPage() {
 
                 try {
                   await axios.delete(
-                    `http://localhost:5000/startups/${startup._id}`,
+                    `https://startupforge-server-5pdk.vercel.app/startups/${startup._id}`,
                   );
 
                   await fetchStartup();
@@ -138,13 +138,16 @@ export default function MyStartupPage() {
 
               if (editingId) {
                 await axios.put(
-                  `http://localhost:5000/startups/${editingId}`,
+                  `https://startupforge-server-5pdk.vercel.app/startups/${editingId}`,
                   startup,
                 );
 
                 alert("Startup Updated Successfully");
               } else {
-                await axios.post("http://localhost:5000/startups", startup);
+                await axios.post(
+                  "https://startupforge-server-5pdk.vercel.app/startups",
+                  startup,
+                );
 
                 alert("Startup Created Successfully");
               }

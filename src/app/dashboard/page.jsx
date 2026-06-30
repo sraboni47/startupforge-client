@@ -34,8 +34,8 @@ export default function DashboardPage() {
   const fetchDashboardData = async () => {
     try {
       const [opportunityRes, applicationRes] = await Promise.all([
-        axios.get("http://localhost:5000/opportunities"),
-        axios.get("http://localhost:5000/applications"),
+        axios.get("https://startupforge-server-5pdk.vercel.app/opportunities"),
+        axios.get("https://startupforge-server-5pdk.vercel.app/applications"),
       ]);
 
       setOpportunities(opportunityRes.data);

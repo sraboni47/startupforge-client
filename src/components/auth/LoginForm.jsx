@@ -1,4 +1,5 @@
 "use client";
+
 import axios from "axios";
 import { useState } from "react";
 import Image from "next/image";
@@ -15,64 +16,18 @@ const LoginForm = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    if (!email || !password) {
-      toast.error("Please fill all fields");
-      return;
-    }
-
+  const handleGoogleLogin = async () => {
     try {
-      setLoading(true);
-
-      const { error } = await authClient.signIn.email({
-        email,
-        password,
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "https://startupforge-client-gamma.vercel.app",
       });
-
-      if (error) {
-        toast.error(error.message || "Invalid email or password");
-        return;
-      }
-
-      toast.success("Login Successful");
-
-      console.log("Before axios");
-
-      const { data: user } = await axios.get(
-        `https://startupforge-server-5pdk.vercel.app/users/${email}`,
-      );
-
-      console.log("User =", user);
-
-      router.refresh();
-
-      if (!user || Object.keys(user).length === 0) {
-        toast.error("User profile not found");
-        return;
-      }
-
-      if (user.role === "founder") {
-        router.push("/dashboard");
-      } else {
-        router.push("/dashboard/my-applications");
-      }
-    } catch (err) {
-      console.error("ERROR =", err);
-
-      if (err.response) {
-        console.log("Status:", err.response.status);
-        console.log("Data:", err.response.data);
-      }
-
-      toast.error("Something went wrong");
-    } finally {
-      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      toast.error("Google Login Failed");
     }
   };
 
@@ -98,13 +53,19 @@ const LoginForm = () => {
       }
 
       toast.success("Login Successful");
-      router.refresh();
 
-      console.log("Before axios");
-      console.log("User =", user);
       const { data: user } = await axios.get(
         `https://startupforge-server-5pdk.vercel.app/users/${email}`,
       );
+
+      console.log("User =", user);
+
+      router.refresh();
+
+      if (!user || Object.keys(user).length === 0) {
+        toast.error("User profile not found");
+        return;
+      }
 
       if (user.role === "founder") {
         router.push("/dashboard");
@@ -112,15 +73,10 @@ const LoginForm = () => {
         router.push("/dashboard/my-applications");
       }
     } catch (err) {
-      console.error("ERROR =", err);
+      console.error(err);
 
       if (err.response) {
-        console.log("Status:", err.response.status);
-        console.log("Data:", err.response.data);
-      }
-
-      if (err.request) {
-        console.log("Request:", err.request);
+        console.log(err.response.data);
       }
 
       toast.error("Something went wrong");

@@ -21,7 +21,9 @@ export default function EditOpportunityPage() {
 
   const fetchOpportunity = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/opportunities/${id}`);
+      const res = await axios.get(
+        `https://startupforge-server-5pdk.vercel.app/opportunities/${id}`,
+      );
 
       const data = res.data;
 
@@ -62,7 +64,7 @@ export default function EditOpportunityPage() {
       };
 
       await axios.put(
-        `http://localhost:5000/opportunities/${id}`,
+        `https://startupforge-server-5pdk.vercel.app/opportunities/${id}`,
         updatedOpportunity,
       );
 

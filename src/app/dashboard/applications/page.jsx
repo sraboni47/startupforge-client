@@ -9,7 +9,9 @@ export default function ApplicationsPage() {
 
   const fetchApplications = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/applications");
+      const res = await axios.get(
+        "https://startupforge-server-5pdk.vercel.app/applications",
+      );
       setApplications(res.data);
     } catch (error) {
       console.error(error);
@@ -28,7 +30,9 @@ export default function ApplicationsPage() {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://localhost:5000/applications/${id}`);
+      await axios.delete(
+        `https://startupforge-server-5pdk.vercel.app/applications/${id}`,
+      );
 
       alert("Application Deleted Successfully");
 

@@ -15,7 +15,7 @@ export default function ManageOpportunitiesPage() {
 
     try {
       const res = await axios.get(
-        `http://localhost:5000/opportunities/founder/${session.user.email}`,
+        `https://startupforge-server-5pdk.vercel.app/opportunities/founder/${session.user.email}`,
       );
 
       setOpportunities(res.data);
@@ -36,7 +36,9 @@ export default function ManageOpportunitiesPage() {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://localhost:5000/opportunities/${id}`);
+      await axios.delete(
+        `https://startupforge-server-5pdk.vercel.app/opportunities/${id}`,
+      );
 
       alert("Opportunity Deleted Successfully");
 

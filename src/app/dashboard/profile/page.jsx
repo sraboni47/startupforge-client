@@ -31,7 +31,9 @@ export default function ProfilePage() {
 
   const fetchProfile = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/users/${userEmail}`);
+      const res = await axios.get(
+        `https://startupforge-server-5pdk.vercel.app/users/${userEmail}`,
+      );
 
       if (res.data.email) {
         setProfile(res.data);
@@ -50,7 +52,10 @@ export default function ProfilePage() {
 
   const handleSubmit = async () => {
     try {
-      await axios.put("http://localhost:5000/users", profile);
+      await axios.put(
+        "https://startupforge-server-5pdk.vercel.app/users",
+        profile,
+      );
 
       toast.success("Profile Updated");
     } catch (error) {

@@ -27,7 +27,7 @@ export default function AddOpportunityPage() {
   const fetchMyStartups = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:5000/startups/${session.user.email}`,
+        `https://startupforge-server-5pdk.vercel.app/startups/${session.user.email}`,
       );
 
       setMyStartups(data);
@@ -86,7 +86,7 @@ export default function AddOpportunityPage() {
               };
 
               await axios.post(
-                "http://localhost:5000/opportunities",
+                "https://startupforge-server-5pdk.vercel.app/opportunities",
                 opportunityData,
               );
 
