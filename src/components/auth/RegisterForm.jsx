@@ -37,7 +37,7 @@ const RegisterForm = () => {
     try {
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: "http://localhost:3000",
+        callbackURL: "https://startupforge-client-gamma.vercel.app",
       });
     } catch (error) {
       console.error(error);
@@ -82,7 +82,8 @@ if (error) {
   return;
 }
 
-await axios.put("http://localhost:5000/users", {
+await axios.put(
+  "https://startupforge-server-5pdk.vercel.app/users", {
   name,
   email,
   image: preview,
