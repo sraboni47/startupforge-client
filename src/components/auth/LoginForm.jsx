@@ -53,6 +53,7 @@ const LoginForm = () => {
       }
 
       toast.success("Login Successful");
+      router.refresh();
 
       const { data: user } = await axios.get(
         `https://startupforge-server-5pdk.vercel.app/users/${email}`,
