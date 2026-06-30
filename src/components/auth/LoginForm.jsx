@@ -23,7 +23,7 @@ const LoginForm = () => {
     try {
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: "http://localhost:3000",
+        callbackURL: "https://startupforge-client-gamma.vercel.app",
       });
     } catch (error) {
       console.error(error);
@@ -55,10 +55,10 @@ const LoginForm = () => {
       toast.success("Login Successful");
 
       const { data: user } = await axios.get(
-        `http://localhost:5000/users/${email}`,
+        `https://startupforge-server-5pdk.vercel.app/users/${email}`,
       );
 
-      if (user.role === "Founder") {
+      if (user.role === "founder") {
         router.push("/dashboard");
       } else {
         router.push("/dashboard/my-applications");
