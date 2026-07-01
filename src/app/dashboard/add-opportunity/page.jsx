@@ -102,7 +102,8 @@ export default function AddOpportunityPage() {
               router.push("/dashboard/manage-opportunities");
             } catch (error) {
               console.log(error);
-              alert("Failed to add opportunity");
+              console.log(error.response);
+              console.log(error.response?.data);
             }
           }}
         >
