@@ -121,11 +121,7 @@ export default function AddOpportunityPage() {
               <option value="">Select Startup</option>
               <option value="TechNova">TechNova</option>
               <option value="StartupForge">StartupForge</option>
-              <option value="EcoMart">EcoMart</option>
               <option value="HealthCare AI">HealthCare AI</option>
-              <option value="EduSpark">EduSpark</option>
-              <option value="FoodExpress">FoodExpress</option>
-              <option value="TravelMate">TravelMate</option>
 
               {myStartups.map((startup) => (
                 <option key={startup._id} value={startup._id}>
