@@ -64,7 +64,7 @@ export default function EditOpportunityPage() {
       };
 
       await axios.put(
-        `https://startupforge-server-5pdk.vercel.app/opportunities/${id}`,
+        `https://startupforge-client-gamma.vercel.app/opportunities/${id}`,
         updatedOpportunity,
       );
 
