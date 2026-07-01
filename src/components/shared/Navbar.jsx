@@ -3,6 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { authClient } from "@/lib/auth-client";
 
 const Navbar = () => {
@@ -10,14 +12,31 @@ const Navbar = () => {
 
   const { data: session, isPending } = authClient.useSession();
 
-  console.log("SESSION =", session);
-  console.log("PENDING =", isPending);
-  console.log("USER =", session?.user);
+  const [profileImage, setProfileImage] = useState("/user.png");
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (!session?.user?.email) return;
+
+      try {
+        const { data } = await axios.get(
+          `https://startupforge-server-5pdk.vercel.app/users/${session.user.email}`
+        );
+
+        if (data?.image) {
+          setProfileImage(data.image);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchUser();
+  }, [session]);
 
   const handleLogout = async () => {
     try {
       await authClient.signOut();
-
       router.push("/");
       router.refresh();
     } catch (error) {
@@ -51,9 +70,7 @@ const Navbar = () => {
             <Link href="/startup">Browse Startups</Link>
             <Link href="/opportunities">Opportunities</Link>
 
-            {session?.user && (
-              <Link href="/dashboard">Dashboard</Link>
-            )}
+            {session?.user && <Link href="/dashboard">Dashboard</Link>}
           </nav>
 
           {/* Right Side */}
@@ -64,17 +81,15 @@ const Navbar = () => {
               <>
                 <div className="flex items-center gap-3">
                   <Image
-                    src={session.user.image || "/user.png"}
+                    src={profileImage}
                     alt="Profile"
                     width={42}
                     height={42}
-                    className="rounded-full object-cover border"
+                    className="rounded-full border object-cover"
                   />
 
                   <div className="hidden md:block">
-                    <p className="font-semibold">
-                      {session.user.name}
-                    </p>
+                    <p className="font-semibold">{session.user.name}</p>
 
                     <p className="text-xs text-gray-500">
                       {session.user.email}

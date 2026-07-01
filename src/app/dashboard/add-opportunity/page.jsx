@@ -118,12 +118,6 @@ export default function AddOpportunityPage() {
               <option value="TechNova">TechNova</option>
               <option value="StartupForge">StartupForge</option>
               <option value="HealthCare AI">HealthCare AI</option>
-
-              {myStartups.map((startup) => (
-                <option key={startup._id} value={startup._id}>
-                  {startup.startupName}
-                </option>
-              ))}
             </select>
           </div>
 

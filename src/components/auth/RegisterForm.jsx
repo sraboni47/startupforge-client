@@ -16,6 +16,16 @@ import {
 } from "react-icons/fi";
 
 const RegisterForm = () => {
+  const uploadImage = async (image) => {
+  const formData = new FormData();
+  formData.append("image", image);
+
+  const url = `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`;
+
+  const { data } = await axios.post(url, formData);
+
+  return data.data.url;
+};
   const router = useRouter();
 
   const [role, setRole] = useState("collaborator");
@@ -83,15 +93,23 @@ if (error) {
   return;
 }
 console.log("DATA =", data);
+let imageUrl = "";
+
+if (image) {
+  imageUrl = await uploadImage(image);
+}
+
 await axios.put(
-  "https://startupforge-server-5pdk.vercel.app/users", {
-  name,
-  email,
-  image: preview,
-  role,
-  skills: "",
-  bio: "",
-});
+  "https://startupforge-server-5pdk.vercel.app/users",
+  {
+    name,
+    email,
+    image: imageUrl,
+    role,
+    skills: "",
+    bio: "",
+  }
+);
 
 toast.success("Account created successfully!");
 
