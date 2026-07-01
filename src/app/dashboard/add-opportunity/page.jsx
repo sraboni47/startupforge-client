@@ -67,13 +67,9 @@ export default function AddOpportunityPage() {
             }
 
             try {
-              const selectedStartup = myStartups.find(
-                (startup) => startup._id === startupId,
-              );
-
               const opportunityData = {
                 startupId,
-                startupName: selectedStartup.startupName,
+                startupName: startupId,
                 founderEmail: session.user.email,
 
                 roleTitle,
@@ -102,8 +98,8 @@ export default function AddOpportunityPage() {
               router.push("/dashboard/manage-opportunities");
             } catch (error) {
               console.log(error);
-              console.log(error.response);
               console.log(error.response?.data);
+              alert("Failed to add opportunity");
             }
           }}
         >
