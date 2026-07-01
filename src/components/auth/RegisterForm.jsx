@@ -71,17 +71,18 @@ const RegisterForm = () => {
       setLoading(true);
 
     
-const { error } = await authClient.signUp.email({
+const { error,data } = await authClient.signUp.email({
   name,
   email,
   password,
 });
 
 if (error) {
+  console.log("ERROR =", error);
   toast.error(error.message || "Registration failed");
   return;
 }
-
+console.log("DATA =", data);
 await axios.put(
   "https://startupforge-server-5pdk.vercel.app/users", {
   name,

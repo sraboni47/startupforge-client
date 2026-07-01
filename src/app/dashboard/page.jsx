@@ -1,14 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { FiBriefcase, FiUsers, FiCheckCircle } from "react-icons/fi";
 
 export default function DashboardPage() {
-  const router = useRouter();
-
   const { data: session } = authClient.useSession();
 
   const [role, setRole] = useState("");
@@ -22,10 +19,6 @@ export default function DashboardPage() {
       );
 
       setRole(data.role);
-
-      if (data.role === "collaborator" || data.role === "Collaborator") {
-        router.push("/dashboard/my-applications");
-      }
     } catch (error) {
       console.log(error);
     }
@@ -48,9 +41,8 @@ export default function DashboardPage() {
   useEffect(() => {
     if (session?.user?.email) {
       checkRole();
+      fetchDashboardData();
     }
-
-    fetchDashboardData();
   }, [session]);
 
   return (

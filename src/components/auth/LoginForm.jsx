@@ -42,36 +42,42 @@ const LoginForm = () => {
     try {
       setLoading(true);
 
-      const { error } = await authClient.signIn.email({
+      const { error, data } = await authClient.signIn.email({
         email,
         password,
+        // callbackURL: "/",
       });
 
       if (error) {
+        console.log("ERROR =", error);
         toast.error(error.message || "Invalid email or password");
         return;
       }
+      console.log("DATA =", data);
 
       toast.success("Login Successful");
 
-      const { data: user } = await axios.get(
-        `https://startupforge-server-5pdk.vercel.app/users/${email}`,
-      );
-
-      console.log("User =", user);
-
+      router.push("/");
       router.refresh();
 
-      if (!user || Object.keys(user).length === 0) {
-        toast.error("User profile not found");
-        return;
-      }
+      // const { data: user } = await axios.get(
+      //   `https://startupforge-server-5pdk.vercel.app/users/${email}`,
+      // );
 
-      if (user.role === "founder") {
-        router.push("/dashboard");
-      } else {
-        router.push("/dashboard/my-applications");
-      }
+      // console.log("User =", user);
+
+      // router.refresh();
+
+      // if (!user || Object.keys(user).length === 0) {
+      //   toast.error("User profile not found");
+      //   return;
+      // }
+
+      // if (user.role === "founder") {
+      //   router.push("/dashboard");
+      // } else {
+      //   router.push("/dashboard/my-applications");
+      // }
     } catch (err) {
       console.error(err);
 

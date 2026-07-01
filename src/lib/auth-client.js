@@ -1,5 +1,8 @@
 import { createAuthClient } from "better-auth/react";
 
 export const authClient = createAuthClient({
-  baseURL: "https://startupforge-server-5pdk.vercel.app",
+  baseURL: process.env.BETTER_AUTH_URL || "https://startupforge-client-gamma.vercel.app",
+  fetchOptions: {
+    credentials: "include",
+  },
 });

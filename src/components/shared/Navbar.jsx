@@ -10,6 +10,10 @@ const Navbar = () => {
 
   const { data: session, isPending } = authClient.useSession();
 
+  console.log("SESSION =", session);
+  console.log("PENDING =", isPending);
+  console.log("USER =", session?.user);
+
   const handleLogout = async () => {
     try {
       await authClient.signOut();
@@ -36,7 +40,8 @@ const Navbar = () => {
             />
 
             <h1 className="text-3xl font-bold">
-              Startup<span className="text-violet-600">Nexus</span>
+              Startup
+              <span className="text-violet-600">Nexus</span>
             </h1>
           </Link>
 
@@ -53,12 +58,18 @@ const Navbar = () => {
 
           {/* Right Side */}
           <div className="flex items-center gap-4">
-            {isPending ? null : session?.user ? (
+            {isPending ? (
+              <p className="text-sm">Loading...</p>
+            ) : session?.user ? (
               <>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-violet-600 text-white flex items-center justify-center font-bold text-lg">
-                    {session.user.name?.charAt(0).toUpperCase()}
-                  </div>
+                  <Image
+                    src={session.user.image || "/user.png"}
+                    alt="Profile"
+                    width={42}
+                    height={42}
+                    className="rounded-full object-cover border"
+                  />
 
                   <div className="hidden md:block">
                     <p className="font-semibold">
@@ -73,7 +84,7 @@ const Navbar = () => {
 
                 <button
                   onClick={handleLogout}
-                  className="border px-4 py-2 rounded-lg hover:bg-gray-100"
+                  className="rounded-lg border px-4 py-2 hover:bg-gray-100"
                 >
                   Logout
                 </button>
@@ -82,14 +93,14 @@ const Navbar = () => {
               <>
                 <Link
                   href="/login"
-                  className="border px-4 py-2 rounded-lg hover:bg-gray-100"
+                  className="rounded-lg border px-4 py-2 hover:bg-gray-100"
                 >
                   Login
                 </Link>
 
                 <Link
                   href="/register"
-                  className="bg-violet-600 text-white px-4 py-2 rounded-lg hover:bg-violet-700"
+                  className="rounded-lg bg-violet-600 px-4 py-2 text-white hover:bg-violet-700"
                 >
                   Get Started
                 </Link>

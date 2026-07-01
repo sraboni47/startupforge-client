@@ -28,15 +28,16 @@ const ApplyModal = ({ open, onClose, opportunity }) => {
     }
 
     try {
-      const application = {
-        opportunityId: opportunity._id,
-        roleTitle: opportunity.roleTitle,
-        applicantEmail: email,
-        portfolio,
-        message,
-        appliedAt: new Date(),
-      };
-
+     const application = {
+  opportunityId: opportunity._id,
+  roleTitle: opportunity.roleTitle,
+  startupName: opportunity.startupName,
+  applicantEmail: email,
+  portfolio,
+  message,
+  status: "Pending",
+  appliedAt: new Date(),
+};
       await axios.post("https://startupforge-server-5pdk.vercel.app/applications", application);
 
       toast.success("Application submitted!");
